@@ -15,7 +15,18 @@ class CartItemController extends Controller
      */
     public function index()
     {
-        //
+        $cartitems = CartItem::select('cart_items.*', 'items.name', 'items.amount')
+            ->where('user_id', Auth::id())
+            ->join('items', 'items.id','=','cart_items.item_id')
+            ->get();
+
+        $subtotal = 0;
+        
+        foreach($cartitems as $cartitem){
+            $subtotal += bcmul( $cartitem->amount , $cartitem->quantity , 0);
+        }
+        
+        return view('cartitem/index', ['cartitems' => $cartitems, 'subtotal' => $subtotal]);
     }
 
     /**
