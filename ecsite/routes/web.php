@@ -13,6 +13,7 @@
 
 Route::get('/','ItemController@Index');
 Route::get('/item/{item}','ItemController@show');
+Route::post('/cartitem','CartItemController@store');
 
 Auth::routes();
 
